@@ -1,0 +1,29 @@
+﻿@model List<InventoryOrderingSystem.Models.Customer>
+
+<h2>Customers</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add Customer</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@customer.FullName</td>
+                <td>@customer.Email</td>
+                <td>@customer.PhoneNumber</td>
+                <td>@(customer.IsActive ? "Yes" : "No")</td>
+            </tr>
+        }
+    </tbody>
+</table>

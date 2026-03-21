@@ -1,0 +1,50 @@
+﻿@model List<InventoryOrderingSystem.Models.Order>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Orders</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create Order</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Customer Name</th>
+            <th>Total Amount</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@order.Status</td>
+                <td>@order.Customer?.FullName</td>
+                <td>@order.TotalAmount.ToString("N2")</td>
+                <td>@order.DateCreated.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-info btn-sm">View</a>
+
+                    @if (order.Status == "Pending")
+                    {
+                            <form asp-action="Complete" asp-route-id="@order.OrderId" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-success btn-sm">Complete</button>
+                            </form>
+
+                            <form asp-action="Cancel" asp-route-id="@order.OrderId" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                            </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
