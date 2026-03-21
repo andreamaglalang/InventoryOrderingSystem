@@ -60,9 +60,9 @@ namespace InventoryOrderingSystem.Controllers
                     }).ToList(),
 
                 Items = new List<CreateOrderItemViewModel>
-                    {
-                        new CreateOrderItemViewModel()
-                    }
+                {
+                    new CreateOrderItemViewModel()
+                }
             };
 
             return View(model);
@@ -74,20 +74,7 @@ namespace InventoryOrderingSystem.Controllers
             if (!IsAdminLoggedIn())
                 return RedirectToAction("Login", "Account");
 
-            model.Customers = _customerRepository.GetAll()
-                .Where(c => c.IsActive)
-                .Select(c => new SelectListItem
-                {
-                    Value = c.CustomerId.ToString(),
-                    Text = c.FullName
-                }).ToList();
-
-            model.Products = _productRepository.GetAll()
-                .Select(p => new SelectListItem
-                {
-                    Value = p.ProductId.ToString(),
-                    Text = $"{p.ProductCode} - {p.ProductName}"
-                }).ToList();
+            ReloadDropdowns(model);
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -95,6 +82,47 @@ namespace InventoryOrderingSystem.Controllers
             try
             {
                 _orderService.CreateOrder(model);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            if (!IsAdminLoggedIn())
+                return RedirectToAction("Login", "Account");
+
+            try
+            {
+                var model = _orderService.GetOrderForEdit(id);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Edit(CreateOrderViewModel model)
+        {
+            if (!IsAdminLoggedIn())
+                return RedirectToAction("Login", "Account");
+
+            ReloadDropdowns(model);
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            try
+            {
+                _orderService.UpdateOrder(model);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -134,6 +162,24 @@ namespace InventoryOrderingSystem.Controllers
 
             _orderService.CancelOrder(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        private void ReloadDropdowns(CreateOrderViewModel model)
+        {
+            model.Customers = _customerRepository.GetAll()
+                .Where(c => c.IsActive)
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CustomerId.ToString(),
+                    Text = c.FullName
+                }).ToList();
+
+            model.Products = _productRepository.GetAll()
+                .Select(p => new SelectListItem
+                {
+                    Value = p.ProductId.ToString(),
+                    Text = $"{p.ProductCode} - {p.ProductName}"
+                }).ToList();
         }
     }
 }

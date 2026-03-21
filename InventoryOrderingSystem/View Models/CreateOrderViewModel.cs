@@ -5,6 +5,8 @@ namespace InventoryOrderingSystem.ViewModels
 {
     public class CreateOrderViewModel
     {
+        public int OrderId { get; set; }
+
         [Required]
         public int CustomerId { get; set; }
 

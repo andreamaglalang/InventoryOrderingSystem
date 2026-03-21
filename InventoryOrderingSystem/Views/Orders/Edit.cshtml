@@ -1,12 +1,14 @@
 ﻿@model InventoryOrderingSystem.ViewModels.CreateOrderViewModel
 
 @{
-    ViewData["Title"] = "Create Order";
+    ViewData["Title"] = "Edit Order";
 }
 
-<h2>Create Order</h2>
+<h2>Edit Order</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
+    <input asp-for="OrderId" type="hidden" />
+
     <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
     <div class="mb-3">
@@ -48,7 +50,7 @@
         <button type="button" id="add-item" class="btn btn-secondary">Add Another Product</button>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit Order</button>
+    <button type="submit" class="btn btn-primary">Update Order</button>
 
     <select id="product-template" class="d-none">
         <option value="">-- Select Product --</option>

@@ -42,6 +42,11 @@ namespace InventoryOrderingSystem.Repositories
             _context.Orders.Update(order);
         }
 
+        public void RemoveOrderItems(IEnumerable<OrderItem> items)
+        {
+            _context.OrderItems.RemoveRange(items);
+        }
+
         public void Save()
         {
             _context.SaveChanges();

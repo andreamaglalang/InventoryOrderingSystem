@@ -8,6 +8,7 @@ namespace InventoryOrderingSystem.Repositories
         Order? GetById(int id);
         void Add(Order order);
         void Update(Order order);
+        void RemoveOrderItems(IEnumerable<OrderItem> items);
         void Save();
     }
 }

@@ -10,6 +10,11 @@
     <a asp-action="Create" class="btn btn-primary">Create Order</a>
 </p>
 
+@if (TempData["Error"] != null)
+{
+        <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -35,6 +40,8 @@
 
                     @if (order.Status == "Pending")
                     {
+                            <a asp-action="Edit" asp-route-id="@order.OrderId" class="btn btn-warning btn-sm">Edit</a>
+
                             <form asp-action="Complete" asp-route-id="@order.OrderId" method="post" style="display:inline;">
                                 <button type="submit" class="btn btn-success btn-sm">Complete</button>
                             </form>
