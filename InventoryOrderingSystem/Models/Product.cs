@@ -1,25 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-namespace InventoryOrderingSystem.Models
+namespace InventoryOrderingSystem.Models;
+
+[Index("ProductCode", Name = "UQ__Products__2F4E024FF342F6CB", IsUnique = true)]
+public partial class Product
 {
-    [Table("Products")]
-    public partial class Product
-    {
-        public int ProductId { get; set; }
+    [Key]
+    public int ProductId { get; set; }
 
-        [Required]
-        public string ProductCode { get; set; } = string.Empty;
+    [StringLength(50)]
+    public string ProductCode { get; set; } = null!;
 
-        [Required]
-        public string ProductName { get; set; } = string.Empty;
+    [StringLength(100)]
+    public string ProductName { get; set; } = null!;
 
-        [Range(0, int.MaxValue)]
-        public int Stock { get; set; }
+    public int Stock { get; set; }
 
-        [Range(0.01, double.MaxValue)]
-        public decimal Price { get; set; }
+    [Column(TypeName = "decimal(18, 2)")]
+    public decimal Price { get; set; }
 
-        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-    }
+    [InverseProperty("Product")]
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

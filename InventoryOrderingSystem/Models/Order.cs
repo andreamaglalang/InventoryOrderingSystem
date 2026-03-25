@@ -1,24 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-namespace InventoryOrderingSystem.Models
+namespace InventoryOrderingSystem.Models;
+
+public partial class Order
 {
-    [Table("Orders")]
-    public partial class Order
-    {
-        public int OrderId { get; set; }
+    [Key]
+    public int OrderId { get; set; }
 
-        public int CustomerId { get; set; }
+    public int CustomerId { get; set; }
 
-        [Required]
-        public string Status { get; set; } = "Pending";
+    [StringLength(30)]
+    public string Status { get; set; } = null!;
 
-        public decimal TotalAmount { get; set; }
+    [Column(TypeName = "decimal(18, 2)")]
+    public decimal TotalAmount { get; set; }
 
-        public DateTime DateCreated { get; set; }
+    [Column(TypeName = "datetime")]
+    public DateTime DateCreated { get; set; }
 
-        public virtual Customer? Customer { get; set; }
+    [ForeignKey("CustomerId")]
+    [InverseProperty("Orders")]
+    public virtual Customer Customer { get; set; } = null!;
 
-        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-    }
+    [InverseProperty("Order")]
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

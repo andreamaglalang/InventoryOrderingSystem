@@ -1,25 +1,33 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-namespace InventoryOrderingSystem.Models
+namespace InventoryOrderingSystem.Models;
+
+public partial class OrderItem
 {
-    [Table("OrderItems")]
-    public partial class OrderItem
-    {
-        public int OrderItemId { get; set; }
+    [Key]
+    public int OrderItemId { get; set; }
 
-        public int OrderId { get; set; }
+    public int OrderId { get; set; }
 
-        public int ProductId { get; set; }
+    public int ProductId { get; set; }
 
-        [Range(1, int.MaxValue)]
-        public int Quantity { get; set; }
+    public int Quantity { get; set; }
 
-        public decimal UnitPrice { get; set; }
+    [Column(TypeName = "decimal(18, 2)")]
+    public decimal UnitPrice { get; set; }
 
-        public decimal LineTotal { get; set; }
+    [Column(TypeName = "decimal(18, 2)")]
+    public decimal LineTotal { get; set; }
 
-        public virtual Order? Order { get; set; }
-        public virtual Product? Product { get; set; }
-    }
+    [ForeignKey("OrderId")]
+    [InverseProperty("OrderItems")]
+    public virtual Order Order { get; set; } = null!;
+
+    [ForeignKey("ProductId")]
+    [InverseProperty("OrderItems")]
+    public virtual Product Product { get; set; } = null!;
 }

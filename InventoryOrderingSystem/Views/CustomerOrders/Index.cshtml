@@ -1,0 +1,38 @@
+﻿@model List<InventoryOrderingSystem.Models.Order>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<h2>My Orders</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create Order</a>
+    <a asp-controller="CustomerAccount" asp-action="Logout" class="btn btn-secondary">Logout</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Total Amount</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@order.Status</td>
+                <td>@order.TotalAmount.ToString("N2")</td>
+                <td>@order.DateCreated.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-info btn-sm">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -22,6 +22,14 @@ namespace InventoryOrderingSystem.Repositories
             return _context.Customers.FirstOrDefault(c => c.CustomerId == id);
         }
 
+        public Customer? GetByEmailAndPassword(string email, string password)
+        {
+            return _context.Customers.FirstOrDefault(c =>
+                c.Email == email &&
+                c.Password == password &&
+                c.IsActive);
+        }
+
         public void Add(Customer customer)
         {
             _context.Customers.Add(customer);

@@ -1,26 +1,30 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-namespace InventoryOrderingSystem.Models
+namespace InventoryOrderingSystem.Models;
+
+public partial class Customer
 {
-    [Table("Customers")]
-    public partial class Customer
-    {
-        public int CustomerId { get; set; }
+    [Key]
+    public int CustomerId { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string FullName { get; set; } = string.Empty;
+    [StringLength(100)]
+    public string FullName { get; set; } = null!;
 
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } = string.Empty;
+    [StringLength(100)]
+    public string Email { get; set; } = null!;
 
-        [Phone]
-        public string? PhoneNumber { get; set; }
+    [StringLength(30)]
+    public string? PhoneNumber { get; set; }
 
-        public bool IsActive { get; set; }
+    public bool IsActive { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-    }
+    [StringLength(100)]
+    public string Password { get; set; } = null!;
+
+    [InverseProperty("Customer")]
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }
