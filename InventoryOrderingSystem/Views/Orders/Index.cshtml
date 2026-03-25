@@ -33,7 +33,7 @@
                 <td>@order.OrderId</td>
                 <td>@order.Status</td>
                 <td>@order.Customer?.FullName</td>
-                <td>@order.TotalAmount.ToString("N2")</td>
+                <td>₱@order.TotalAmount.ToString("N2")</td>
                 <td>@order.DateCreated.ToString("yyyy-MM-dd HH:mm")</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-info btn-sm">View</a>
@@ -54,4 +54,4 @@
             </tr>
         }
     </tbody>
-</table>    
+</table>

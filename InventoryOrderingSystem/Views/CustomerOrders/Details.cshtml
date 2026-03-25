@@ -8,7 +8,7 @@
 
 <div class="mb-3"><strong>Order ID:</strong> @Model.OrderId</div>
 <div class="mb-3"><strong>Status:</strong> @Model.Status</div>
-<div class="mb-3"><strong>Total Amount:</strong> @Model.TotalAmount.ToString("N2")</div>
+<div class="mb-3"><strong>Total Amount:</strong> ₱@Model.TotalAmount.ToString("N2")</div>
 <div class="mb-3"><strong>Date Created:</strong> @Model.DateCreated.ToString("yyyy-MM-dd HH:mm")</div>
 
 <h4>Products</h4>
@@ -26,9 +26,9 @@
         {
             <tr>
                 <td>@item.Product?.ProductName</td>
-                <td>@item.UnitPrice.ToString("N2")</td>
+                <td>₱@item.UnitPrice.ToString("N2")</td>
                 <td>@item.Quantity</td>
-                <td>@item.LineTotal.ToString("N2")</td>
+                <td>₱@item.LineTotal.ToString("N2")</td>
             </tr>
         }
     </tbody>
