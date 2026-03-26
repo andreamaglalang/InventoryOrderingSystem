@@ -1,6 +1,6 @@
-﻿namespace InventoryOrderingSystem.DTOs
+﻿namespace InventoryOrderingSystem.OrderRequest
 {
-    public class CreateOrderRequestDto
+    public class CreateOrderRequest
     {
         public int CustomerId { get; set; }
         public int ProductId { get; set; }
